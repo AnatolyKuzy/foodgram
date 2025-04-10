@@ -12,7 +12,10 @@ class FoodgramUser(AbstractUser):
         max_length=150,
         unique=True,
         validators=[
-            RegexValidator(regex=r'^[\w.@+-]+$', message="Username must be alphanumeric or contain '.', '@', '+', '-'.")
+            RegexValidator(
+                regex=r'^[\w.@+-]+$',
+                message="Username must be alphanumeric or contain '.', '@', '+', '-'."
+            )
         ],
     )
     email = models.EmailField(

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -9,15 +9,15 @@ from rest_framework import status
 
 from .models import FoodgramUser, Subscription
 from .serializers import (
-    CastomUserSerializer, UserAvatarSerializer,
+    UserSerializer, UserAvatarSerializer,
     SubscriptionSerializer, ShowSubscriptionsSerializer
 )
 from .pagination import CustomPagination
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(generics.ListAPIView):
     queryset = FoodgramUser.objects.all()
-    serializer_class = CastomUserSerializer
+    serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
 

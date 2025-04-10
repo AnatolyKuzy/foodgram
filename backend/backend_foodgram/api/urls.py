@@ -21,6 +21,10 @@ router.register('tags', TagViewSet, basename='tags')
 
 
 urlpatterns = [
+    path('', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+    path('users/me/avatar/', UserAvatarView.as_view(), name='user-avatar'),
+    path('', include(router.urls)),
     path(
         'recipes/download_shopping_cart/',
         download_shopping_cart,
@@ -46,9 +50,5 @@ urlpatterns = [
         ShowSubscriptionsView.as_view(),
         name='subscriptions'
     ),
-    path('', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
-    path('users/me/avatar/', UserAvatarView.as_view(), name='user-avatar'),
-    path('', include(router.urls)),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

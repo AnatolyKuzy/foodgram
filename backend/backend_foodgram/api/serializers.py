@@ -23,7 +23,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-class CastomUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodgramUser
         fields = (

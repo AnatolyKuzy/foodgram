@@ -36,10 +36,10 @@ DJOSER = {
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
-        'user_create': os.getenv('api.serializers.UserRegistrationSerializer'),
-        'user_list': os.getenv('api.serializers.CastomUserSerializer'),
-        'current_user': os.getenv('api.serializers.CastomUserSerializer'),
-        'user': os.getenv('api.serializers.CastomUserSerializer'),
+        'user_create': 'api.serializers.UserRegistrationSerializer',
+        'user_list': 'api.serializers.UserSerializer',
+        'current_user': 'api.serializers.UserSerializer',
+        'user': 'api.serializers.UserSerializer',
     },
     'PERMISSIONS': {
         'current_user': ['rest_framework.permissions.IsAuthenticated'],
@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME', 'foodgram'),
         'USER': os.getenv('DATABASE_USER', 'user'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'mypassword'),
-        'HOST': os.getenv('DATABASE_HOST', 'localhost'),
+        'HOST': '127.0.0.1',
         'PORT': os.getenv('DATABASE_PORT', 5432),
     }
 }
