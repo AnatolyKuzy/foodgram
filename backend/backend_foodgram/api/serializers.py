@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from rest_framework.exceptions import ValidationError
 from django.core.files.base import ContentFile
+from djoser.serializers import UserSerializer as DjoserUserSerializer
 
 from .models import FoodgramUser, Subscription
 from recipes.models import Recipe
@@ -23,22 +24,23 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
+class UserSerializer(DjoserUserSerializer):
+    is_subscribed = serializers.SerializerMethodField()
+
+    class Meta(DjoserUserSerializer.Meta):
         model = FoodgramUser
         fields = (
-            'id', 'username', 'email',
-            'first_name', 'last_name', 'role',
-            'is_subscribed', 'avatar'
+            'email', 'id', 'avatar', 'is_subscribed',
+            'username', 'first_name', 'last_name'
         )
 
     def get_is_subscribed(self, obj):
-        request = self.context.get('request')
-        if request is None or request.user.is_anonymous:
-            return False
-        return Subscription.objects.filter(
-            user=request.user, author=obj
-        ).exists()
+        """Метод для проверки подписки на пользователя."""
+        return (
+            self.context['request'].user.is_authenticated
+            and self.context['request'].user.following.filter(
+                followee=obj).exists()
+        )
 
 
 class UserAvatarSerializer(serializers.Serializer):
