@@ -58,7 +58,6 @@ class FoodgramUser(AbstractUser):
 
 
 class Subscription(models.Model):
-    """ Модель подписок. """
 
     user = models.ForeignKey(
         FoodgramUser,

@@ -5,11 +5,9 @@ from rest_framework.validators import UniqueTogetherValidator
 
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             RecipeTag, ShoppingCart, Tag)
-from api.models import FoodgramUser
 
 
 class TagSerializer(serializers.ModelSerializer):
-    """ Сериализатор просмотра модели Тег. """
 
     class Meta:
         model = Tag
@@ -17,7 +15,6 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
-    """ Сериализатор модели, связывающей ингредиенты и рецепт. """
 
     id = serializers.ReadOnlyField(source='ingredient.id')
     name = serializers.ReadOnlyField(source='ingredient.name')
@@ -31,7 +28,6 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-    """ Сериализатор просмотра модели Ингредиенты. """
 
     class Meta:
         model = Ingredient
@@ -39,7 +35,6 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    """ Сериализатор просмотра модели Рецепт. """
 
     tags = TagSerializer(many=True)
     author = UserSerializer(read_only=True)
@@ -86,7 +81,6 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class AddIngredientRecipeSerializer(serializers.ModelSerializer):
-    """ Сериализатор добавления ингредиента в рецепт. """
 
     id = serializers.IntegerField()
     amount = serializers.IntegerField()
@@ -97,7 +91,6 @@ class AddIngredientRecipeSerializer(serializers.ModelSerializer):
 
 
 class CreateRecipeSerializer(serializers.ModelSerializer):
-    """ Сериализатор создания/обновления рецепта. """
 
     author = UserSerializer(read_only=True)
     ingredients = AddIngredientRecipeSerializer(many=True)
@@ -187,7 +180,6 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
 
 
 class ShowFavoriteSerializer(serializers.ModelSerializer):
-    """ Сериализатор для отображения избранного. """
 
     class Meta:
         model = Recipe
@@ -195,7 +187,6 @@ class ShowFavoriteSerializer(serializers.ModelSerializer):
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
-    """ Сериализатор для списка покупок. """
 
     class Meta:
         model = ShoppingCart
@@ -208,7 +199,6 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
-    """ Сериализатор модели Избранное. """
 
     class Meta:
         model = Favorite

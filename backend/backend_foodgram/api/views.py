@@ -43,7 +43,6 @@ class UserAvatarView(APIView):
 
 
 class SubscribeView(APIView):
-    """ Операция подписки/отписки. """
 
     permission_classes = [IsAuthenticated, ]
 
@@ -74,7 +73,6 @@ class SubscribeView(APIView):
 
 
 class ShowSubscriptionsView(ListAPIView):
-    """ Отображение подписок. """
 
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPagination

@@ -65,7 +65,6 @@ class UserAvatarSerializer(serializers.Serializer):
 
 
 class ShowSubscriptionsSerializer(serializers.ModelSerializer):
-    """ Сериализатор для отображения подписок пользователя. """
 
     is_subscribed = serializers.SerializerMethodField()
     recipes = serializers.SerializerMethodField()

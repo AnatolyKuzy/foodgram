@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -11,7 +10,6 @@ from rest_framework.views import APIView
 
 from .models import (
     Favorite, Ingredient, Recipe, RecipeIngredient, ShoppingCart, Tag)
-from api.models import Subscription, FoodgramUser
 from .filters import IngredientFilter, RecipeFilter
 from api.pagination import CustomPagination
 from .permissions import IsAuthorOrAdminOrReadOnly
@@ -21,7 +19,6 @@ from .serializers import (CreateRecipeSerializer, FavoriteSerializer,
 
 
 class FavoriteView(APIView):
-    """ Добавление/удаление рецепта из избранного. """
 
     permission_classes = [IsAuthenticated, ]
     pagination_class = CustomPagination
@@ -52,7 +49,6 @@ class FavoriteView(APIView):
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
-    """ Отображение тегов. """
 
     permission_classes = [AllowAny, ]
     pagination_class = None
@@ -61,7 +57,6 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
-    """ Отображение ингредиентов. """
 
     permission_classes = [AllowAny, ]
     pagination_class = None
@@ -72,7 +67,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    """ Операции с рецептами: добавление/изменение/удаление/просмотр. """
 
     permission_classes = [IsAuthorOrAdminOrReadOnly, ]
     pagination_class = CustomPagination
@@ -92,7 +86,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 
 class ShoppingCartView(APIView):
-    """ Добавление рецепта в корзину или его удаление. """
 
     permission_classes = [IsAuthenticated, ]
 
