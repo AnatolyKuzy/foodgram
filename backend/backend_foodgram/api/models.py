@@ -14,7 +14,9 @@ class FoodgramUser(AbstractUser):
         validators=[
             RegexValidator(
                 regex=r'^[\w.@+-]+$',
-                message="Username must be alphanumeric or contain '.', '@', '+', '-'."
+                message=(
+                    "Use letters, '.', '@', '+', '-'."
+                )
             )
         ],
     )
