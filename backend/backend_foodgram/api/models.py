@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
+from django.db.models import UniqueConstraint
 
 
 class FoodgramUser(AbstractUser):
@@ -51,3 +52,31 @@ class FoodgramUser(AbstractUser):
 
     def __str__(self):
         return self.username[:50]
+
+
+class Subscription(models.Model):
+    """ Модель подписок. """
+
+    user = models.ForeignKey(
+        FoodgramUser,
+        related_name='follower',
+        on_delete=models.CASCADE,
+        verbose_name='Подписчик'
+    )
+    author = models.ForeignKey(
+        FoodgramUser,
+        related_name='author',
+        on_delete=models.CASCADE,
+        verbose_name='Автор'
+    )
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=['user', 'author'],
+                name='user_author_unique'
+            )
+        ]
+
+    def __str__(self):
+        return f'Пользователь {self.user} подписался на {self.author}'
