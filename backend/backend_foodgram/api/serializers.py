@@ -14,7 +14,9 @@ from recipes.serializers import ShowFavoriteSerializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodgramUser
-        fields = ('email', 'username', 'first_name', 'last_name', 'password')
+        fields = (
+            'email', 'id', 'username', 'first_name', 'last_name', 'password'
+        )
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
