@@ -253,7 +253,8 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ('id', 'name', 'text', 'ingredients', 'tags', 'cooking_time', 'image')
+        fields = ('id', 'name', 'text', 'ingredients',
+                  'tags', 'cooking_time', 'image')
         read_only_fields = ('author',)
 
     @transaction.atomic
