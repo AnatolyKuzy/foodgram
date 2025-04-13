@@ -43,6 +43,13 @@ class FoodgramUser(AbstractUser):
         blank=True,
         null=True
     )
+    following = models.ManyToManyField(
+
+        'self',
+        symmetrical=False,
+        related_name='followers',
+        blank=True
+    )
 
     class Meta:
         verbose_name = "Пользователь"

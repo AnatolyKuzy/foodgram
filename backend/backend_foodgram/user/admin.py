@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from backend_foodgram.settings import EMPTY
 
-from .models import Subscription, FoodgramUser
+from user.models import Subscription, FoodgramUser
 
 
 @admin.register(FoodgramUser)

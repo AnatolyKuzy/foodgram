@@ -4,10 +4,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
-    UserViewSet, UserAvatarView, ShowSubscriptionsView, SubscribeView)
-from recipes.views import (
-    FavoriteView, IngredientViewSet,
-    RecipeViewSet, ShoppingCartView, TagViewSet, download_shopping_cart
+    UserViewSet, UserAvatarView, ShowSubscriptionsView, SubscribeView,
+    IngredientViewSet,
+    RecipeViewSet, TagViewSet,
 )
 
 app_name = 'api'
@@ -24,21 +23,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     path('users/me/avatar/', UserAvatarView.as_view(), name='user-avatar'),
     path('', include(router.urls)),
-    path(
-        'recipes/download_shopping_cart/',
-        download_shopping_cart,
-        name='download_shopping_cart'
-    ),
-    path(
-        'recipes/<int:id>/shopping_cart/',
-        ShoppingCartView.as_view(),
-        name='shopping_cart'
-    ),
-    path(
-        'recipes/<int:id>/favorite/',
-        FavoriteView.as_view(),
-        name='favorite'
-    ),
     path(
         'users/<int:id>/subscribe/',
         SubscribeView.as_view(),

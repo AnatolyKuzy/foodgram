@@ -48,6 +48,6 @@ class ShoppingCartAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'color', 'slug']
+    list_display = ['id', 'name', 'slug']
     search_fields = ['name', 'slug']
     empty_value_display = EMPTY
