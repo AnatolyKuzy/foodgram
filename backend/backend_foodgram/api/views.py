@@ -88,15 +88,13 @@ class SubscribeView(APIView):
             data=data,
             context={'request': request}
         )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, id):
         author = get_object_or_404(FoodgramUser, id=id)
-        if Subscription.objects.filter(
-           user=request.user, author=author).exists():
+        if request.user.follower.filter(author=author).exists():
             subscription = get_object_or_404(
                 Subscription, user=request.user, author=author
             )
@@ -126,28 +124,33 @@ class FavoriteView(APIView):
     pagination_class = CustomPagination
 
     def post(self, request, id):
+        recipe = get_object_or_404(Recipe, id=id)
+        if request.user.favorites.filter(recipe=recipe).exists():
+            return Response(
+                {'error': 'Рецепт уже добавлен в избранное.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         data = {
             'user': request.user.id,
-            'recipe': id
+            'recipe': recipe.id
         }
-        if not Favorite.objects.filter(
-           user=request.user, recipe__id=id).exists():
-            serializer = FavoriteSerializer(
-                data=data, context={'request': request}
-            )
-            if serializer.is_valid():
-                serializer.save()
-                return Response(
-                    serializer.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        serializer = FavoriteSerializer(
+            data=data, context={'request': request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, id):
         recipe = get_object_or_404(Recipe, id=id)
-        if Favorite.objects.filter(
-           user=request.user, recipe=recipe).exists():
-            Favorite.objects.filter(user=request.user, recipe=recipe).delete()
+        favorite = request.user.favorites.filter(recipe=recipe).first()
+        if favorite:
+            favorite.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {'error': 'Рецепт не в избранном.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -189,8 +192,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = self.get_object()
         if request.method == 'POST':
             return self.add_to(Favorite, request.user, recipe.id)
-        else:
-            return self.remove_from(Favorite, request.user, recipe.id)
+        return self.remove_from(Favorite, request.user, recipe.id)
 
     @action(
         detail=True,
@@ -202,8 +204,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = self.get_object()
         if request.method == 'POST':
             return self.add_to(ShoppingCart, request.user, recipe.id)
-        else:
-            return self.remove_from(ShoppingCart, request.user, recipe.id)
+        return self.remove_from(ShoppingCart, request.user, recipe.id)
 
     @action(
         detail=True,
@@ -300,19 +301,19 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def download_shopping_cart(request):
-    ingredient_list = "Cписок покупок:"
     ingredients = RecipeIngredient.objects.filter(
         recipe__shopping_cart__user=request.user
     ).values(
         'ingredient__name', 'ingredient__measurement_unit'
     ).annotate(amount=Sum('amount'))
-    for num, i in enumerate(ingredients):
-        ingredient_list += (
-            f"\n{i['ingredient__name']} - "
-            f"{i['amount']} {i['ingredient__measurement_unit']}"
-        )
-        if num < ingredients.count() - 1:
-            ingredient_list += ', '
+    ingredient_lines = [
+        f"{ingredient_data['ingredient__name']} - "
+        f"{ingredient_data['amount']} "
+        f"{ingredient_data['ingredient__measurement_unit']}"
+        for ingredient_data in ingredients
+    ]
+
+    ingredient_list = "Cписок покупок:\n" + "\n".join(ingredient_lines)
     file = 'shopping_list'
     response = HttpResponse(ingredient_list, 'Content-Type: application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{file}.pdf"'
