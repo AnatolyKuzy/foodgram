@@ -117,4 +117,4 @@ Foodgram — это онлайн-приложение, которое позво
 
 AnatolyKuzy [GitHub](https://github.com/AnatolyKuzy/).
 
-Проект доступен по ссылке [text](http://foodgramwork.sytes.net).
+Проект доступен по ссылке [foodgram](http://foodgramwork.sytes.net).
