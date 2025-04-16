@@ -340,7 +340,7 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({
                     'ingredients': 'Отсутствует id ингредиента'
                 })
-            ingredients_ids.append(ingredient_id)
+            ingredients_ids.add(ingredient_id)
 
         if len(ingredients_ids) != len(set(ingredients_ids)):
             raise serializers.ValidationError({

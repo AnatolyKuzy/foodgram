@@ -12,8 +12,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'Default_key')
 
 DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1')
 
-#ALLOWED_HOSTS = os.getenv('HOSTS', 'localhost').split(',')
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('HOSTS', 'localhost').split(',')
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -108,9 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -120,7 +120,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = BASE_DIR / 'collected_static'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -138,6 +138,6 @@ REST_FRAMEWORK = {
 }
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/media'
 
 EMPTY = '-пусто-'
