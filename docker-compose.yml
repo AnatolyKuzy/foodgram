@@ -23,8 +23,6 @@ services:
     volumes:
       - static:/backend_static
       - media:/media
-    command: >
-         sh -c "python manage.py migrate"
   frontend:
     env_file: .env
     build: ./frontend/
@@ -39,3 +37,5 @@ services:
     volumes:
       - static:/static
       - media:/media
+    depends_on:
+      - backend

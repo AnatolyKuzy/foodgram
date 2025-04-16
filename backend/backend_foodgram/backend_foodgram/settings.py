@@ -1,5 +1,6 @@
-from pathlib import Path
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,11 +10,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'Default_key')
 
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0',
-                 '51.250.97.138', 'frontend', 'backend']
-
+#ALLOWED_HOSTS = os.getenv('HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -87,8 +87,8 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME', 'foodgram'),
         'USER': os.getenv('DATABASE_USER', 'user'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'mypassword'),
-        'HOST': 'db',
-        'PORT': os.getenv('DATABASE_PORT', 5432),
+        'HOST': os.getenv('DB_HOST', 'db'),
+        'PORT': os.getenv('DATABASE_PORT', '5432'),
     }
 }
 
