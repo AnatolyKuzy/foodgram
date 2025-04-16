@@ -41,19 +41,17 @@ Foodgram — это онлайн-приложение, которое позво
     ```
 2. Создайте файл .env в корневой папке проекта:
 
-    
-    -SECRET_KEY=значение
-
-    -DATABASE_NAME=значение
-    -DATABASE_USER=значение
-    -DATABASE_PASSWORD=значение
-    -DATABASE_HOST=значение
-    -DATABASE_PORT=значение
-    -ENGINE_DB=значение
-
-    -HOSTS=значение
-
-    -DEBUG=значение
+    ```
+    SECRET_KEY=<значение>
+    DATABASE_NAME=<значение>
+    DATABASE_USER=<значение>
+    DATABASE_PASSWORD=<значение>
+    DATABASE_HOST=<значение>
+    DATABASE_PORT=<значение>
+    ENGINE_DB=<значение>
+    HOSTS=<значение>
+    DEBUG=<значение>
+    ```
     
 3. Запустите контейнеры:
 
